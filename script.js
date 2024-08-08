@@ -1,0 +1,46 @@
+const radioBitesContainer = document.getElementById('radio-bites-container');
+const loadMoreBtn = document.getElementById('load-more-btn');
+
+let startingIndex = 0;
+let endingIndex = 16;
+let biteDataArr = [];
+
+fetch(`https://api.openf1.org/v1/team_radio?meeting_key=latest`)
+  .then((res) => res.json())
+  .then((data) => {
+    biteDataArr = data;
+    displayBites(biteDataArr.slice(startingIndex, endingIndex));
+  })
+  .catch((err) => {
+    radioBitesContainer.innerHTML = '<p class="error-msg">There was an error loading the bites</p>';
+  });
+
+const fetchMoreBites = () => {
+  startingIndex += 16;
+  endingIndex += 16;
+
+  displayBites(biteDataArr.slice(startingIndex, endingIndex));
+  if (biteDataArr.length <= endingIndex) {
+    loadMoreBtn.disabled = true;
+loadMoreBtn.style.cursor = "not-allowed";
+    loadMoreBtn.textContent = 'No more data to load';
+  }
+};
+
+const displayBites = (bites) => {
+  bites.forEach(({ date, driver_number, recording_url, meeting_key, session_key }, index) => {
+    radioBitesContainer.innerHTML += `
+    <div id="${index + startingIndex}" class="user-card">
+      <p>meeting: ${meeting_key}, session: ${session_key}</p>
+      <p>date: ${date}</p>
+      <h2 class="bite-name">${driver_number}</h2>
+      <audio controls>
+        <source src="${recording_url}" type="audio/mpeg">
+      </audio>
+      <div class="red-divider"></div>
+    </div>
+  `;
+  });
+};
+
+loadMoreBtn.addEventListener('click', fetchMoreBites);
