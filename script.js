@@ -1,3 +1,7 @@
+const eventName = document.getElementById('event');
+const session = document.getElementById('session');
+const sessionDate = document.getElementById('session-date');
+const track = document.getElementById('track');
 const radioBitesContainer = document.getElementById('radio-bites-container');
 const loadMoreBtn = document.getElementById('load-more-btn');
 
@@ -5,7 +9,7 @@ let startingIndex = 0;
 let endingIndex = 16;
 let biteDataArr = [];
 
-fetch(`https://api.openf1.org/v1/team_radio?meeting_key=latest`)
+fetch(`https://api.openf1.org/v1/team_radio?session_key=latest`)
   .then((res) => res.json())
   .then((data) => {
     biteDataArr = data;
@@ -44,3 +48,24 @@ const displayBites = (bites) => {
 };
 
 loadMoreBtn.addEventListener('click', fetchMoreBites);
+
+fetch(`https://api.openf1.org/v1/meetings?meeting_key=latest`)
+  .then((res) => res.json())
+  .then((data) => {
+    eventName.textContent = ` ${data[0].meeting_official_name}`;
+    track.textContent = ` ${data[0].circuit_short_name}, ${data[0].country_name}`;
+  })
+  .catch((err) => {
+    console.log(err);
+  });
+
+fetch(`https://api.openf1.org/v1/sessions?session_key=latest`)
+.then((res) => res.json())
+.then((data) => {
+  const date = data[0].date_start;
+  sessionDate.textContent = ` ${date.substring(0, 10)}, ${date.substring(11, 16)} (GMT: ${data[0].gmt_offset})`;
+  session.textContent = ` ${data[0].session_type}`;
+})
+.catch((err) => {
+  console.log(err);
+});

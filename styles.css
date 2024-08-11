@@ -21,6 +21,11 @@ body {
   margin: 20px 0;
 }
 
+h2, h3, h4 {
+  color: var(--light-grey);
+  margin: 1rem auto;
+}
+
 #radio-bites-container {
   display: flex;
   flex-wrap: wrap;
