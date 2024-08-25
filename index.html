@@ -6,20 +6,46 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Formula 1 Radio Bites</title>
     <link rel="stylesheet" href="./styles.css" />
+    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Raleway">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v6.6.0/css/all.css">
   </head>
-  <body>
-    <h1 class="title">F1's Latest Event Radio Sound Bites</h1>
-    <div id="event-container">
-      <h2>Event:<span id="event"></span></h2>
-      <h4>Track:<span id="track"></span></h4>
-      <h4>Date:<span id="session-date"></span></h4>
-      <h3>Session:<span id="session"></span></h3>
-    </div>
-    <main>
-      <div id="radio-bites-container"></div>
-      <button class="btn" id="load-more-btn">Load More Bites</button>
+  <body class="w3-content" style="max-width:1600px">
+    <!-- SIDEBAR -->
+    <nav class="w3-sidebar w3-collapse w3-animate-left" style="z-index:3;width:300px;" id="mySidebar"><br>
+      <div class="w3-container" id="event-container">
+        <div>
+          <a href="#" onclick="w3_close()" class="w3-hide-large w3-jumbo w3-padding w3-hover-grey" title="close menu">
+            <i class="fa fa-remove"></i>
+          </a>
+        </div>
+        <h4>LATEST EVENT</h4>
+        <div class="red-divider"></div>
+        <h2><span id="event"></span></h2>
+        <!-- <img src="" alt="track layout" style="width:45%;" class="w3-round"><br> -->
+        <h4>Track:<span id="track"></span></h4>
+        <h4>Date:<span id="session-date"></span></h4>
+        <h3>Session:<span id="session"></span></h3>
+      </div>
+    </nav>
+
+    <!-- Overlay effect when opening sidebar on small screens -->
+    <div class="w3-overlay w3-hide-large w3-animate-opacity" onclick="w3_close()" style="cursor:pointer" title="close side menu" id="myOverlay"></div>
+
+    <!-- CONTENT -->
+    <main class="w3-main" style="margin-left:300px">
+      <h1 class="title">F1's Team Radio Sound Bites</h1>
+      <header id="portfolio">
+        <span class="w3-button w3-hide-large w3-xlarge w3-white w3-hover-text-grey" onclick="w3_open()"><i class="fas fa-info-circle"></i> Event Info</span>
+      </header>
+      <div class="w3-container">
+        <div id="radio-bites-container"></div>
+        <button class="btn" id="load-more-btn">Load More Bites</button>
+      </div>
     </main>
 
-    <script src="./script.js"></script>
+    <script src="./script.js">
+
+    </script>
   </body>
 </html>

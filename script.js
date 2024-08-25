@@ -9,6 +9,16 @@ let startingIndex = 0;
 let endingIndex = 16;
 let biteDataArr = [];
 
+function w3_open() {
+  document.getElementById("mySidebar").style.display = "block";
+  document.getElementById("myOverlay").style.display = "block";
+}
+
+function w3_close() {
+  document.getElementById("mySidebar").style.display = "none";
+  document.getElementById("myOverlay").style.display = "none";
+}
+
 fetch(`https://api.openf1.org/v1/team_radio?session_key=latest`)
   .then((res) => res.json())
   .then((data) => {
