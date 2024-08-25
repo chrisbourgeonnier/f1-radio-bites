@@ -6,6 +6,7 @@
 
 :root {
   --main-bg-color: #313131;
+  --sidebar-bg-color: #151515;
   --light-grey: #f5f6f7;
   --dark-red: #a70101;
   --golden-yellow: #feac32;
@@ -24,6 +25,19 @@ body {
 h2, h3, h4 {
   color: var(--light-grey);
   margin: 1rem auto;
+}
+
+#mySidebar {
+  top: 0;
+  background-color: var(--sidebar-bg-color);
+}
+
+.fa-remove {
+  color: var(--light-grey);
+}
+
+.bite-name {
+  color: var(--dark-red);
 }
 
 #radio-bites-container {
