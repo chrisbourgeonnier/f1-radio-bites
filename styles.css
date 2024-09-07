@@ -36,8 +36,19 @@ h2, h3, h4 {
   color: var(--light-grey);
 }
 
-.bite-name {
-  color: var(--dark-red);
+.driver-num {
+  font-weight: bolder;
+  font-size: 1.5rem;
+}
+
+.driver-name {
+  color: var(--main-bg-color);
+  font-size: 1.5rem;
+}
+
+.driver-team {
+  font-weight: lighter;
+  font-size: 1.25rem;
 }
 
 #radio-bites-container {
@@ -53,7 +64,7 @@ audio, source {
 
 .user-card {
   border-radius: 5px;
-  width: 300px;
+  width: 350px;
   /* height: 200px; */
   background-color: var(--light-grey);
   margin: 20px;

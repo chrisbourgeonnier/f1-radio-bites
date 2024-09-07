@@ -9,6 +9,7 @@ const url = 'https://api.openf1.org/v1/'
 let startingIndex = 0;
 let endingIndex = 16;
 let biteDataArr = [];
+let driversArr = [];
 
 const w3_open = () => {
   document.getElementById("mySidebar").style.display = "block";
@@ -19,6 +20,9 @@ const w3_close = () => {
   document.getElementById("mySidebar").style.display = "none";
   document.getElementById("myOverlay").style.display = "none";
 }
+
+
+
 
 const fetchBites = async () => {
   try {
@@ -32,17 +36,6 @@ const fetchBites = async () => {
        console.log(err);
      };
 }
-
-// PREVIOUS, without ASYNC/AWAIT, to delete after testing
-/* fetch(url + `team_radio?session_key=latest`)
-  .then((res) => res.json())
-  .then((data) => {
-    biteDataArr = data;
-    displayBites(biteDataArr.slice(startingIndex, endingIndex));
-  })
-  .catch((err) => {
-    radioBitesContainer.innerHTML = '<p class="error-msg">There was an error loading the bites</p>';
-  });*/
 
 const fetchMoreBites = () => {
   startingIndex += 16;
@@ -58,10 +51,19 @@ loadMoreBtn.style.cursor = "not-allowed";
 
 const displayBites = (bites) => {
   bites.forEach(({ date, driver_number, recording_url, meeting_key, session_key }, index) => {
+    const driver = driversArr.find((d) => d.driver_number === driver_number )
     radioBitesContainer.innerHTML += `
     <div id="${index + startingIndex}" class="user-card">
     <p>date: ${date}</p>
-    <h2 class="bite-name">${driver_number}</h2>
+    <div>
+      <div style="display:inline-block;margin:auto;">
+        <p><span class="driver-num" style="color:#${driver.team_colour};">${driver_number} </span><span class="driver-name">${driver.broadcast_name}</span></p>
+        <p><span class="driver-team" style="color:#${driver.team_colour};">${driver.team_name}</span></p>
+      </div>
+      <div style="display:inline-block;margin:auto;">
+        <img src="${driver.headshot_url}" style="height:70px;vertical-align:inherit;" alt"driver">
+      </div>
+    </div>
     <audio controls>
     <source src="${recording_url}" type="audio/mpeg">
     </audio>
@@ -105,8 +107,26 @@ const fetchSessions = async () => {
   }
 }
 
-fetchMeetings();
-fetchSessions();
-fetchBites();
+const fetchDrivers = async () => {
+  try {
+    const response = await fetch(url + `drivers`);
+    if (response.ok) {
+      let drivers = await response.json();
+      drivers.forEach((driver) => {
+        driversArr.find((d) => d.driver_number === driver.driver_number ) ? '' : driversArr.push(driver);
+      })
+
+      fetchMeetings();
+      fetchSessions();
+      fetchBites();
+    }
+  } catch (err) {
+    console.log(err);
+
+  };
+}
+
+fetchDrivers()
+
 
 loadMoreBtn.addEventListener('click', fetchMoreBites);
