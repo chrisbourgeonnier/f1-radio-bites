@@ -50,18 +50,18 @@ loadMoreBtn.style.cursor = "not-allowed";
 };
 
 const displayBites = (bites) => {
-  bites.forEach(({ date, driver_number, recording_url, meeting_key, session_key }, index) => {
+  bites.forEach(({ date, driver_number, recording_url }, index) => {
     const driver = driversArr.find((d) => d.driver_number === driver_number )
     radioBitesContainer.innerHTML += `
     <div id="${index + startingIndex}" class="user-card">
-    <p>date: ${date}</p>
     <div>
-      <div style="display:inline-block;margin:auto;">
-        <p><span class="driver-num" style="color:#${driver.team_colour};">${driver_number} </span><span class="driver-name">${driver.broadcast_name}</span></p>
+    <div style="display:inline-block;margin:auto;">
+      <p>TIME: ${date.substring(11, 23)}</p>
+        <p><span class="driver-num" style="color:#${driver.team_colour};">${driver_number} </span><span class="driver-name"> ${driver.broadcast_name}</span></p>
         <p><span class="driver-team" style="color:#${driver.team_colour};">${driver.team_name}</span></p>
       </div>
       <div style="display:inline-block;margin:auto;">
-        <img src="${driver.headshot_url}" style="height:70px;vertical-align:inherit;" alt"driver">
+        <img src="${driver.headshot_url}" style="height:80px;vertical-align:inherit;margin:5px 5px 0 5px;" alt"driver">
       </div>
     </div>
     <audio controls>
@@ -72,8 +72,6 @@ const displayBites = (bites) => {
     `;
   });
 };
-// USE IN CARDS OR NOT?
-// <p>meeting: ${meeting_key}, session: ${session_key}</p>
 
 const fetchMeetings = async () => {
   try {
