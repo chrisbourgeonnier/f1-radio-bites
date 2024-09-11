@@ -1,5 +1,5 @@
 const eventName = document.getElementById('event');
-const session = document.getElementById('session');
+const sessions = document.getElementById('sessions');
 const sessionDate = document.getElementById('session-date');
 const track = document.getElementById('track');
 const radioBitesContainer = document.getElementById('radio-bites-container');
@@ -22,12 +22,11 @@ const w3_close = () => {
 }
 
 
-
-
-const fetchBites = async () => {
+const fetchBites = async (session) => {
   try {
-    const response = await fetch(url + `team_radio?session_key=latest`);
+    const response = await fetch(url + `team_radio?session_key=${session}`);
     if (response.ok) {
+      console.log(session)
       biteDataArr = await response.json();
       return displayBites(biteDataArr.slice(startingIndex, endingIndex));
     }
@@ -89,14 +88,28 @@ const fetchMeetings = async () => {
   }
 };
 
+const sessionPicker = (data) => {
+  data.forEach(session => {
+      sessions.innerHTML += `<option value="${session.session_key}" >${session.session_name}</option>`
+      })
+};
+
+const sessionSelector = () => {
+  radioBitesContainer.innerHTML = '';
+  fetchBites(sessions.value);
+}
+
+
 const fetchSessions = async () => {
   try {
-    const response = await fetch(url + `sessions?session_key=latest`);
+    const response = await fetch(url + `sessions?meeting_key=latest`);
     if (response.ok) {
       const data = await response.json();
+      sessionPicker(data);
+      sessionSelector();
+      // session.textContent = ` ${data[0].session_type}`;
       const date = data[0].date_start;
       sessionDate.textContent = ` ${date.substring(0, 10)}, ${date.substring(11, 16)} (GMT: ${data[0].gmt_offset})`;
-      session.textContent = ` ${data[0].session_type}`;
       return;
     }
     throw new Error('Fetching sessions data failed!')
@@ -116,7 +129,6 @@ const fetchDrivers = async () => {
 
       fetchMeetings();
       fetchSessions();
-      fetchBites();
     }
   } catch (err) {
     console.log(err);
